@@ -1,28 +1,204 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Login</title>
+  <title>Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url("https://www.pngkey.com/png/full/68-682087_about-web-bay-technology-background-in-png.png");
+    }
+
+    .form-container {
+      background-color: #ffffff;
+      border-radius: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      text-align: center;
+      width: 400px;
+    }
+
+    h3 {
+      color: black;
+      font-size: 35px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 90%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: 12px;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+      margin-top: 10px;
+      margin-bottom: 12px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-size: 14px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      color: #ff0000;
+      text-align: left;
+      margin-top: 5px;
+    }
+    .error-message {
+      color: #ff0000;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <form th:action="@{/register}" th:object="${user}" method="post">
-    <h3>Registration</h3>
-    <input type="text" th:field="*{firstName}" placeholder="First Name" /> <br/><br/>
-    <input type="text" th:field="*{lastName}" placeholder="Last Name" /> <br/><br/>
-    <input type="text" th:field="*{mobile}" placeholder="Mobile Number" /> <br/><br/>
-    <input type="text" th:field="*{email}" placeholder="Email" /> <br/><br/>
-    <input type="password" th:field="*{password}" placeholder="Password" /> <br/><br/>
-    <select th:field="*{role}" required>
-      <option value="">Select</option>
-      <option value="ADMIN">ADMIN</option>
-      <option value="USER">USER</option>
-    </select> <br/><br/>
-    <button type="submit">Register</button> | <a th:href="@{|/login|}" th:text="'Log in'"></a>
-    <span th:utext="${successMessage}"></span>
-    <div th:if="${bindingResult!=null && bindingResult.getAllErrors()!=null}">
-      <ul th:each="data : ${bindingResult.getAllErrors()}">
-        <li th:text="${data.getObjectName() + ' :: ' + data.getDefaultMessage()}"></li>
-      </ul>
-    </div>
-</form>
+<div class="form-container">
+  <img src="https://www.divum.in/images/logo/Divum_Logo%20shade.png"/>
+  <h3>REGISTRATION</h3>
+  <form id="registrationForm" th:action="@{/register}" th:object="${user}" method="post" onsubmit="return validateForm()">
+    <div>
+      <label for="firstName"></label>
+      <input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name" /><br/>
+      <span id="firstNameError" class="error-message">First Name is required</span>
+    </div><br/>
+
+    <div>
+      <label for="lastName"></label>
+      <input type="text" id="lastName" th:field="*{lastName}" placeholder="Last Name" /><br/>
+      <span id="lastNameError" class="error-message">Last Name is required</span>
+    </div><br/>
+
+    <div>
+      <label for="mobile"></label>
+      <input type="text" id="mobile" th:field="*{mobile}" placeholder="Mobile Number" /><br/>
+      <span id="mobileError" class="error-message">Mobile Number is required</span>
+    </div><br/>
+
+    <div>
+      <label for="email"></label>
+      <input type="text" id="email" th:field="*{email}" placeholder="Email" /><br/>
+      <span id="emailError" class="error-message">Invalid Email format</span>
+    </div><br/>
+
+    <div>
+      <label for="password"></label>
+      <input type="password" id="password" th:field="*{password}" placeholder="Password" /><br/>
+      <span id="passwordError" class="error-message">Password should be at least 6 characters</span>
+    </div><br/>
+
+    <div>
+      <label for="role"></label>
+      <select id="role" th:field="*{role}" required>
+        <option value="">Select</option>
+        <option value="ADMIN">ADMIN</option>
+        <option value="USER">USER</option>
+      </select>
+    </div><br/>
+
+    <button type="submit">Register</button>
+    <a th:href="@{|/login|}" th:text="'Log in'"></a>
+  </form>
+  <br>
+  <span th:utext="${successMessage}" th:if="${successMessage}"></span>
+</div>
+
+<script>
+  function validateForm() {
+    var isValid = true;
+
+    var firstName = document.getElementById("firstName");
+    var firstNameError = document.getElementById("firstNameError");
+    if (firstName.value.trim() === '') {
+      firstNameError.style.display = 'block';
+      isValid = false;
+    } else {
+      firstNameError.style.display = 'none';
+    }
+
+    var lastName = document.getElementById("lastName");
+    var lastNameError = document.getElementById("lastNameError");
+    if (lastName.value.trim() === '') {
+      lastNameError.style.display = 'block';
+      isValid = false;
+    } else {
+      lastNameError.style.display = 'none';
+    }
+
+    var mobile = document.getElementById("mobile");
+    var mobileError = document.getElementById("mobileError");
+    var mobilePattern = /^\d{10,15}$/;
+    if (mobile.value.trim() === '') {
+      mobileError.style.display = 'block';
+      isValid = false;
+    } else if (!mobilePattern.test(mobile.value.trim())) {
+      mobileError.style.display = 'block';
+      isValid = false;
+    } else {
+      mobileError.style.display = 'none';
+    }
+
+    var email = document.getElementById("email");
+    var emailError = document.getElementById("emailError");
+    var emailFormat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.value.trim() === '') {
+      emailError.style.display = 'block';
+      isValid = false;
+    } else if (!emailFormat.test(email.value.trim())) {
+      emailError.style.display = 'block';
+      isValid = false;
+    } else {
+      emailError.style.display = 'none';
+    }
+
+    var password = document.getElementById("password");
+    var passwordError = document.getElementById("passwordError");
+    if (password.value.trim() === '') {
+      passwordError.style.display = 'block';
+      isValid = false;
+    } else if (password.value.length < 6) {
+      passwordError.style.display = 'block';
+      isValid = false;
+    } else {
+      passwordError.style.display = 'none';
+    }
+
+    return isValid;
+  }
+</script>
 </body>
 </html>
+
+

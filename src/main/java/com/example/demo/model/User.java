@@ -30,6 +30,9 @@ public class User implements UserDetails  {
     )
     private Long id;
 
+    @Column(name = "confirmation_token")
+    private String confirmationToken;
+
     @NotNull(message = "First Name cannot be empty")
     @Column(name = "first_name")
     private String firstName;
@@ -42,6 +45,10 @@ public class User implements UserDetails  {
     @Email(message = "Please enter a valid email address")
     @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "reset_token")
+    private String resetToken;
+
 
     @NotNull(message = "Password cannot be empty")
     @Length(min = 7, message = "Password should be atleast 7 characters long")
@@ -126,6 +133,30 @@ public class User implements UserDetails  {
     public String getMobile() { return mobile; }
 
     public void setMobile(String mobile) { this.mobile = mobile; }
+
+    public String getConfirmationToken() {
+        return confirmationToken;
+    }
+
+    public void setConfirmationToken(String confirmationToken) {
+        this.confirmationToken = confirmationToken;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
 
     public String getLastName() { return lastName; }
 

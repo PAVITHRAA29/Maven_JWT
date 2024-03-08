@@ -11,4 +11,14 @@ public class AdminController {
     public String adminHome(){
         return "admin/dashboard";
     }
+
 }
+
+//@Controller
+//public class UserController {
+//
+//    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+//    public String homePage(){
+//        return "user/dashboard";
+//    }
+//}

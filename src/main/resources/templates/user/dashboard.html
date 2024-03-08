@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>User Dashboard</title>
+  <title>Dashboard</title>
 </head>
+<style>
+  body{
+    background-image: url("https://www.pngkey.com/png/full/68-682087_about-web-bay-technology-background-in-png.png ");
+    margin-top: 250px;
+    margin-left: 720px;
+    font-size: large;
+  }
+  img{
+    margin-left: 85px;
+  }
+  .container{
+    background-color: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 400px;
+  }
+</style>
 <body>
+<div class="container">
+  <img src="https://www.divum.in/images/logo/Divum_Logo%20shade.png"/>
   <h2>Welcome to User Dashboard</h2>
   <p>Logged as: <span sec:authentication="name"></span></p>
   <p>Has role: <span sec:authentication="authorities"></span></p>
@@ -11,5 +31,6 @@
     <p><a th:href="@{/}">Home</a></p>
     <p><a th:href="@{/logout}">Log out</a></p>
   </div>
+</div>
 </body>
 </html>

@@ -21,7 +21,7 @@ public class WebSecurityConfig {
 
     @Autowired
     private CustomLoginSucessHandler sucessHandler;
-
+    
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl();
@@ -50,33 +50,28 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-                http.authorizeRequests()
-                // URL matching for accessibility
+        http
+                .authorizeRequests()
                 .antMatchers("/", "/login", "/register").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/account/**").hasAnyAuthority("USER")
                 .anyRequest().authenticated()
                 .and()
-                // form login
-                .csrf().disable().formLogin()
+                .oauth2Login()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
                 .successHandler(sucessHandler)
-                .usernameParameter("email")
-                .passwordParameter("password")
                 .and()
-                // logout
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/access-denied");
+                .accessDeniedPage("/access-denied")
+                .and()
+                .csrf().disable();
 
-                http.authenticationProvider(authenticationProvider());
-                http.headers().frameOptions().sameOrigin();
-
-                return http.build();
+        return http.build();
     }
 
     @Bean
